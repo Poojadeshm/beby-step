@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Child Routine App</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #fef6e4;
+            text-align: center;
+        }
+        h1 {
+            color: #ff6f61;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px lightgray;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #ff6f61;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>👶 Child Daily Routine</h1>
+
+<div class="card">
+    <h2>🍽 Food Routine</h2>
+    <button onclick="loadFood()">Show Meals</button>
+    <p id="food"></p>
+</div>
+
+<div class="card">
+    <h2>😴 Sleep Time</h2>
+    <button onclick="loadSleep()">Show Sleep</button>
+    <p id="sleep"></p>
+    <div class="card">
+    <h2>😴 Sleep Time</h2>
+    <button onclick="loadSleep()">Show Sleep</button>
+    <p id="sleep"></p>
+
+    <!-- ADD FROM HERE 👇 -->
+    <h3>Update Sleep Time</h3>
+    <input type="text" id="bedtime" placeholder="Enter Bedtime">
+    <input type="text" id="nap" placeholder="Enter Nap Time">
+    <br><br>
+    <button onclick="updateSleep()">Save</button>
+    <!-- END HERE 👆 -->
+
+</div>
+
+<div class="card">
+    <h2>🙏 Prayers</h2>
+    <button onclick="loadPrayers()">Show Prayers</button>
+    <p id="prayer"></p>
+</div>
+
+<script>
+function loadFood() {
+    fetch('/food')
+    .then(res => res.json())
+    .then(data => {
+        let text = "";
+        for (let key in data) {
+            text += key + ": " + data[key].meal + "<br>";
+        }
+        document.getElementById("food").innerHTML = text;
+    });
+}
+
+function loadSleep() {
+    fetch('/sleep')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("sleep").innerHTML =
+            "Bedtime: " + data.bedtime + "<br>Nap: " + data.nap_time;
+    });
+}
+
+function loadPrayers() {
+    fetch('/prayers')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("prayer").innerHTML =
+            "Morning: " + data.morning.english + "<br>" +
+            "Evening: " + data.evening.english;
+    });
+}
+</script>
+
+</body>
+</html>
